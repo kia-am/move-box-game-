@@ -1,0 +1,116 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script type="text/javascript" src="jquery.js"></script>
+        <canvas width="500" height="500" style="border:1px solid red " id="mycanvas">
+            
+        </canvas>
+        <b id="b">
+            your score is: 0
+        </b>
+        <script>
+            var x = 0;
+            var y = 0;
+            var width;
+            var height;
+            var xx = "";
+            var yy = "";
+            var score = 0;
+            c = document.getElementById("mycanvas");
+            p = c.getContext("2d");
+
+            function round5(x)
+            {
+                return (x % 5) >= 2.5 ? parseInt(x / 5) * 5 + 5 : parseInt(x / 5) * 5;
+            }
+
+            $(document).keypress(function(e) {
+                var keyboard = e.keyCode;
+
+                switch (keyboard){
+                    case 115:
+                        y += 5;
+                    break;
+                    case 119:
+                        y += -5;
+                    break;
+                    case 100:
+                        x += 5;
+                    break;
+                    case 97:
+                        x += -5;
+                }
+                width = c.width/2 - 15 + x;
+                height = c.height/2 - 15 + y
+                p.beginPath();
+                p.fillStyle = "white"
+                p.fillRect(0,0,c.width,c.height)
+                p.fillStyle = "black"
+                p.fillRect(width,height,30,30);
+                console.log(width + "width")
+                console.log(height + "height")
+                random()
+            })
+            function rand() {
+                xx = round5(Math.floor(Math.random()*c.width))
+                yy = round5(Math.floor(Math.random()*c.height))
+
+            }
+            function random() {
+
+
+                p.fillStyle = "black"
+                p.fillRect(xx,yy,30,30);
+
+
+            }
+            setInterval(function () {
+                if(xx == width && yy == height){
+                    xx = 0;
+                    yy = 0;
+                    score += 1;
+
+                    scoreF()
+                    rand();
+                    random();
+
+                }else if(xx == ""){
+                    rand();
+                    random();
+                }
+                function scoreF() {
+                    $('#b').text("your score is:" + score) ;
+                }
+            })
+            var n = 0;
+            var mi = 0;
+            var m;
+                setInterval(function() {
+                    if(mi != 60){
+                        n++;
+                        mi++;
+                        Math.floor(mi / 60) > 59 ? mi=0 : mi=mi
+                        var s = formating(Math.floor(n % 60));
+                        var m = formating(Math.floor(mi / 60));
+                        var h = formating(Math.floor(n / 3600));
+                        var time = h + ":" + m + ":" + s
+                        console.log(time)
+                        document.getElementById('timer').innerHTML = time
+                    }else{
+                        alert("end time and your score is:" + score);
+                        die();
+                    }
+                }, 1000)
+                function formating (x) {
+                    return x < 10 ? "0" + x : x
+                }
+
+
+            </script>
+
+            <div id="timer"></div>
+
+    </body>
+</html>
